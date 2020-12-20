@@ -563,6 +563,8 @@ class InstructureHelperContainer(QTIMetadataContainer):
 		self.bb_max_score=None
 		self.points_possible=None
 		self.calculated=None
+		self.allowed_extensions=None
+		self.max_file_size=None
 	
 	def GetInstructureHelperContainer(self):
 		return self
@@ -596,6 +598,12 @@ class InstructureHelperContainer(QTIMetadataContainer):
 	def SetAssessmentQuestionIdentiferref(self, ref):
 		self.AddMetaField("assessment_question_identifierref", ref)
 	
+	def SetAllowedExtensions(self, allowed_extensions):
+		self.AddMetaField("allowed_extensions", allowed_extensions)
+
+	def SetMaxFileSize(self, max_file_size):
+		self.AddMetaField("max_file_size", max_file_size)
+
 	def SetAssessmentType(self, type):
 		self.assessmentType = type
 	
@@ -2928,6 +2936,37 @@ class PointsPossible(CanvasBase):
 		if self.data:
 			self.container.SetPointsPossible(self.data)
 
+# allowed_extensions
+# -----------
+#
+class AllowedExtensions(CanvasBase):
+	"""
+	<!ELEMENT allowed_extensions (#PCDATA)>
+	"""
+	def __init__(self,name,attrs,parent):
+		CanvasBase.__init__(self, name, attrs, parent)
+
+	def CloseObject (self):
+		CanvasBase.CloseObject(self)
+		if self.data:
+			self.container.SetAllowedExtensions(self.data)
+
+# max_file_size
+# -----------
+#
+
+class MaxFileSize(CanvasBase):
+	"""
+	<!ELEMENT max_file_size (#PCDATA)>
+	"""
+	def __init__(self,name,attrs,parent):
+		CanvasBase.__init__(self, name, attrs, parent)
+
+	def CloseObject (self):
+		CanvasBase.CloseObject(self)
+		if self.data:
+			self.container.SetMaxFileSize(self.data)
+
 # assessment_question_identifierref
 # -----------
 #
@@ -3244,6 +3283,8 @@ MDFieldMap={
 	'question_type':QMDItemType,
 	'bank_title':BankTitle,
 	'assessment_question_identifierref':AssessmentQuestionIdentiferref,
+	'allowed_extensions':AllowedExtensions,
+	'max_file_size':MaxFileSize,
 
 	# These are custom WebCT (Blackboard Vista) fields
 	'wct_results_showfeedback':WCTShowFeedback,
